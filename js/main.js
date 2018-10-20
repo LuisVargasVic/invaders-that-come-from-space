@@ -408,6 +408,8 @@ class Cube extends Model {
 			4, 3, 7
 		];
 
+		this.pointLength = 8;
+
 
 		// this.indices = [
 		// 	0, 1, 2, 3, 0,
@@ -445,6 +447,47 @@ class Cube extends Model {
 		var offset = 0;
 		var count = this.indices.length;
 		gl.drawElements(primitiveType, count, gl.UNSIGNED_SHORT, offset);
+	}
+	getCentroidX()
+	{
+		let i;
+		var totalX = this.positions[0];
+		for(i = 3; i < this.positions.length; i+=3)
+		{
+			totalX += this.positions[i];
+		}
+		return totalX / this.pointLength;
+
+	}
+
+	getCentroidY()
+	{
+		this.changePositions();
+		let i;
+		var totalY = this.positions[1];
+		for(i = 4; i < this.positions.length; i+=3)
+		{
+			totalY += this.positions[i];
+		}
+		return totalY / this.pointLength;
+	}
+
+	getCentroidZ()
+	{
+		this.changePositions();
+		let i;
+		var totalZ = this.positions[2];
+		for(i = 5; i < this.positions.length; i+=3)
+		{
+			totalZ += this.positions[i];
+		}
+		return totalZ / this.pointLength;
+	}
+	changePositions()
+	{
+		var mat = mat4.create();
+		mat4.multiply(mat, this.positions, this.modelMatrix);
+		this.positions = mat;
 	}
 }
 
@@ -614,7 +657,15 @@ function main()
 	scene.addModel(cube2);
 
 	cube.translate(0,0,1);
-	cube2.translate(-10, 0, 0);
+	cube2.translate(-10, 1, 0);
+	console.log("Centroid X of Cube 1 : ", cube.getCentroidX());
+	console.log("Centroid Y of Cube 1 : " + cube.getCentroidY());
+	console.log("Centroid Z of Cube 1 : " + cube.getCentroidZ());
+
+	console.log("Centroid X of Cube 2 : ", cube2.getCentroidX());
+	console.log("Centroid Y of Cube 2 : " + cube2.getCentroidY());
+	console.log("Centroid Z of Cube 2 : " + cube2.getCentroidZ());
+
 	let camera1 = new Camera();
 	scene.addCamera(camera1);
 	
