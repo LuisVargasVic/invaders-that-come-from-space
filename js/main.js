@@ -451,10 +451,10 @@ class Cube extends Model {
 	getCentroidX()
 	{
 		let i;
-		var totalX = this.positions[0];
-		for(i = 3; i < this.positions.length; i+=3)
+		var totalX = this.vertices[0];
+		for(i = 3; i < this.vertices.length; i+=3)
 		{
-			totalX += this.positions[i];
+			totalX += this.vertices[i];
 		}
 		return totalX / this.pointLength;
 
@@ -462,24 +462,22 @@ class Cube extends Model {
 
 	getCentroidY()
 	{
-		this.changePositions();
 		let i;
-		var totalY = this.positions[1];
-		for(i = 4; i < this.positions.length; i+=3)
+		var totalY = this.vertices[1];
+		for(i = 4; i < this.vertices.length; i+=3)
 		{
-			totalY += this.positions[i];
+			totalY += this.vertices[i];
 		}
 		return totalY / this.pointLength;
 	}
 
 	getCentroidZ()
 	{
-		this.changePositions();
 		let i;
-		var totalZ = this.positions[2];
-		for(i = 5; i < this.positions.length; i+=3)
+		var totalZ = this.vertices[2];
+		for(i = 5; i < this.vertices.length; i+=3)
 		{
-			totalZ += this.positions[i];
+			totalZ += this.vertices[i];
 		}
 		return totalZ / this.pointLength;
 	}
@@ -662,9 +660,11 @@ function main()
 	console.log("Centroid Y of Cube 1 : " + cube.getCentroidY());
 	console.log("Centroid Z of Cube 1 : " + cube.getCentroidZ());
 
-	console.log("Centroid X of Cube 2 : ", cube2.getCentroidX());
-	console.log("Centroid Y of Cube 2 : " + cube2.getCentroidY());
-	console.log("Centroid Z of Cube 2 : " + cube2.getCentroidZ());
+	cube.translate(-2,0,0);
+
+	console.log("Centroid X of Cube 1 : ", cube.getCentroidX());
+	console.log("Centroid Y of Cube 1 : " + cube.getCentroidY());
+	console.log("Centroid Z of Cube 1 : " + cube.getCentroidZ());
 
 	let camera1 = new Camera();
 	scene.addCamera(camera1);
