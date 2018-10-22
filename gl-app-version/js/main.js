@@ -2,6 +2,81 @@
 
 var pointShader, singleColorShader, perVertexColorShader
 
+class Enemy extends Cube {
+	constructor ({ gl, points, indices, center }) {
+		super({
+			gl: gl,
+			points: points,
+			indices: indices,
+			colors: [
+				1., 1., 1., 1., 	 // V0: r,g,b,a
+				1., 0., 0., 1., // v1
+				0., 1., 0., 1., // V2
+				0., 0., 1., 1., // V2
+				0., 1., 1., 1., // V2
+				1., 0., 1., 1., // V2
+				0., 1., 0., 1., // V2
+				1., 1., 0., 1.
+			],
+			color: [1., 0., 0., 1.],
+			pointSize: 10,
+			shaders: {
+				"pointShader": pointShader,
+				"singleColorShader": singleColorShader,
+				"perVertexColorShader": perVertexColorShader
+			}
+		});
+		this.points = points.slice()
+		this.center = center
+		this.setUpdate(this.animate)
+	}
+
+	translate(tx, ty, tz) {
+		let length = this.points.length
+		for (let i = 0; i < length; i++) {
+			let modulus = i % 3
+			if (modulus === 0) {
+				this.points[i] += tx
+			} else if (modulus === 1) {
+				this.points[i] += ty
+			} else if (modulus === 2) {
+				this.points[i] += tz
+			}
+		}
+		super.translate(tx, ty, tz);
+	}
+
+	getCentroid () {
+		let avX = 0, avY = 0, avZ = 0, length = this.points.length
+		for (let i = 0; i < length; i++) {
+			let modulus = i % 3
+			if (modulus === 0) {
+				avX += this.points[i]
+			} else if (modulus === 1) {
+				avY += this.points[i]
+			} else if (modulus === 2) {
+				avZ += this.points[i]
+			}
+		}
+		return [avX / length, avY / length, avZ / length]
+	}
+
+	lookAtCenter (centroid) {
+		let eye = centroid
+		let up = [0., 1., 0.]
+		mat4.lookAt(this.modelMatrix, eye, this.center, up);
+	}
+
+	animate () {
+		let centroid = this.getCentroid()
+		this.lookAtCenter(centroid)
+		let tx = this.center[0] - centroid[0]
+		let ty = this.center[1] - centroid[1]
+		let tz = this.center[2] - centroid[2]
+		this.translate(tx / 10, ty / 10, tz / 10)
+	}
+}
+
 function createComponents(gl) {
 
 	pointShader = new GlShader({
@@ -30,7 +105,7 @@ function createComponents(gl) {
 
 	var components = []
 
-	let cube = new Cube({
+	let cube = new Enemy({
 		gl: gl,
 		points: [
 			1, 1, 1,
@@ -56,28 +131,12 @@ function createComponents(gl) {
 			3, 2, 7,
 			4, 3, 7
 		],
-		colors: [
-			1., 1., 1., 1., 	 // V0: r,g,b,a
-			1., 0., 0., 1., // v1
-			0., 1., 0., 1., // V2
-			0., 0., 1., 1., // V2
-			0., 1., 1., 1., // V2
-			1., 0., 1., 1., // V2
-			0., 1., 0., 1., // V2
-			1., 1., 0., 1.
-		],
-		color: [1., 0., 0., 1.],
-		pointSize: 10,
-		shaders: {
-			"pointShader": pointShader,
-			"singleColorShader": singleColorShader,
-			"perVertexColorShader": perVertexColorShader
-		}
+		center: [0., 0., 5.]
 	});
 
 	cube.setDrawingMode('per-vertex-color');
 
-	let cube2 = new Cube({
+	let cube2 = new Enemy({
 		gl: gl,
 		points: [
 			1, 1, 1,
@@ -103,26 +162,10 @@ function createComponents(gl) {
 			3, 2, 7,
 			4, 3, 7
 		],
-		colors: [
-			1., 1., 1., 1., 	 // V0: r,g,b,a
-			1., 0., 0., 1., // v1
-			0., 1., 0., 1., // V2
-			0., 0., 1., 1., // V2
-			0., 1., 1., 1., // V2
-			1., 0., 1., 1., // V2
-			0., 1., 0., 1., // V2
-			1., 1., 0., 1.
-		],
-		color: [1., 0., 0., 1.],
-		pointSize: 10,
-		shaders: {
-			"pointShader": pointShader,
-			"singleColorShader": singleColorShader,
-			"perVertexColorShader": perVertexColorShader
-		}
-	});
+		center: [0., 0., 5.]
+	})
 
-	cube2.setDrawingMode("single-color");
+	cube2.setDrawingMode("per-vertex-color");
 
 	cube.translate(0, 0, -5);
 	cube2.translate(-10, 0, 0);
@@ -147,8 +190,6 @@ function mouseMoveEventListener(event) {
 	var factor = 10.0 / canvas.height; // The rotation ratio
 	mainApp.camera.center = [-(maxX / 2 - x) * factor, (maxY / 2 - y) * factor, 0.];
 	mainApp.updateCamera();
-	mainApp.run();
-
 }
 
 function initEventHandlers() {
@@ -165,7 +206,7 @@ function main() {
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
 
-	mainApp = new GlApp({ canvas: "canvas", clearColor: [0., 0., 0., 1.], animate: false })
+	mainApp = new GlApp({ canvas: "canvas", clearColor: [0., 0., 0., 1.], animate: true })
 	if (!mainApp.gl) return
 	gl = mainApp.gl
 	var components = createComponents(mainApp.gl)

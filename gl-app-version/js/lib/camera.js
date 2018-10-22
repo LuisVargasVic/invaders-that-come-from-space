@@ -37,8 +37,6 @@ class Camera {
 
     update() {
         this.lookAt(this.eye, this.center, this.up);
-        // this.rotate(this.rotX, [1., 0., 0.]);
-        // this.rotate(this.rotY, [0., 1., 0.]);
     }
 
     setPerspective() {

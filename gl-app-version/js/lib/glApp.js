@@ -34,7 +34,7 @@ class GlApp {
   }
 
   addComponent (component) {
-    this.components.push(component);
+    this.components.push(component)
   }
 
   addComponents (components) {
@@ -46,19 +46,19 @@ class GlApp {
   }
 
   run () {
-    var self = this;
-    this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+    let self = this;
+    this.gl.clear(this.gl.COLOR_BUFFER_BIT)
     // Mapping from clip-space coords to the viewport in pixels
-    this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+    this.gl.viewport(0, 0, this.canvas.width, this.canvas.height)
     // Tell each component to render itthis
-    for (var component of this.components) {
+    for (let component of this.components) {
       component.update()
-      component.loadCameraData(this.camera);
+      component.loadCameraData(this.camera)
       component.render()
     }
     // Animate if needed
     if (this.animate) {
-      requestAnimationFrame(function () { self.run(); })
+      requestAnimationFrame(function () { self.run() })
     }
   }
 }
