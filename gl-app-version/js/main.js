@@ -161,6 +161,7 @@ var canvas
 
 function main() {
 	canvas = document.getElementById("canvas");
+	canvas.style.cursor = 'none';
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
 

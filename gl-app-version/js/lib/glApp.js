@@ -11,6 +11,9 @@ class GlApp {
     if (!this.gl) return console.log("Error getting webgl")
     // Set the clear color
     this.gl.clearColor(clearColor[0], clearColor[1], clearColor[2], clearColor[3])
+    this.gl.enable(this.gl.DEPTH_TEST)
+    this.gl.enable(this.gl.CULL_FACE)
+    this.gl.cullFace(this.gl.BACK)
   }
 
   addCamera (camera) {
