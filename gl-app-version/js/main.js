@@ -69,11 +69,12 @@ class Enemy extends Cube {
 
 	animate () {
 		let centroid = this.getCentroid()
-		this.lookAtCenter(centroid)
+		// this.lookAtCenter(centroid)
 		let tx = this.center[0] - centroid[0]
 		let ty = this.center[1] - centroid[1]
 		let tz = this.center[2] - centroid[2]
-		this.translate(tx / 10, ty / 10, tz / 10)
+		let magnitude = Math.sqrt(Math.pow(tx, 2) + Math.pow(ty, 2) + Math.pow(tz, 2))
+		this.translate(tx / magnitude * 0.5, ty / magnitude * 0.5, tz / magnitude * 0.5)
 	}
 }
 
@@ -131,7 +132,7 @@ function createComponents(gl) {
 			3, 2, 7,
 			4, 3, 7
 		],
-		center: [0., 0., 5.]
+		center: [0., 0., 0.]
 	});
 
 	cube.setDrawingMode('per-vertex-color');
@@ -162,13 +163,13 @@ function createComponents(gl) {
 			3, 2, 7,
 			4, 3, 7
 		],
-		center: [0., 0., 5.]
+		center: [0., 0., 0.]
 	})
 
 	cube2.setDrawingMode("per-vertex-color");
 
-	cube.translate(0, 0, -5);
-	cube2.translate(-10, 0, 0);
+	cube.translate(0, 0, -40);
+	cube2.translate(-10, 0, -30);
 
 	components.push(cube);
 	components.push(cube2);
@@ -188,7 +189,7 @@ function mouseMoveEventListener(event) {
 	x = x - rect.left;
 	y = y - rect.top;
 	var factor = 10.0 / canvas.height; // The rotation ratio
-	mainApp.camera.center = [-(maxX / 2 - x) * factor, (maxY / 2 - y) * factor, 0.];
+	mainApp.camera.center = [-(maxX / 2 - x) * factor, (maxY / 2 - y) * factor, -5.];
 	mainApp.updateCamera();
 }
 

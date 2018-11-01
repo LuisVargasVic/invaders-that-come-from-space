@@ -5,8 +5,8 @@ class Camera {
     }
 
     home() {
-        this.eye = [0., 0., 5.];
-        this.center = [0., 0., 0.];
+        this.eye = [0., 0., 0.];
+        this.center = [0., 0., -5.];
         this.up = [0., 1., 0.];
         this.rotX = 0.;
         this.rotY = 0.;
