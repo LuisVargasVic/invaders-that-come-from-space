@@ -4,6 +4,7 @@ class GlApp {
     this.data = Object.assign({}, data)
     this.animate = animate
     this.components = []
+    this.projectiles = []
     // Get a WebGL Context.
     this.canvas = document.getElementById(canvas)
     this.gl = this.canvas.getContext("webgl")
@@ -37,6 +38,18 @@ class GlApp {
     this.components.push(component)
   }
 
+  addProjectile (component, timeout) {
+    let self = this
+    this.projectiles.push(component)
+    setTimeout(function () {
+      let index = self.projectiles.indexOf(component)
+      if (index !== -1)
+        self.projectiles.splice(index, 1)
+      else
+        console.log("Not found!")
+    }, timeout)
+  }
+
   addComponents (components) {
     this.components = this.components.concat(components)
   }
@@ -55,6 +68,24 @@ class GlApp {
       component.update()
       component.loadCameraData(this.camera)
       component.render()
+    }
+
+    for (let component of this.projectiles) {
+      component.update()
+      component.loadCameraData(this.camera)
+      component.render()
+      let returnVal = component.checkCollision(this.components);
+      if (returnVal[0]) {
+        console.log(returnVal);
+        let enemyIndex = this.components.indexOf(returnVal[1]);
+        console.log("Enemy index: ", enemyIndex);
+        if (enemyIndex !== -1) {
+          console.log("Deleting enemy", enemyIndex)
+          this.components.splice(enemyIndex, 1);
+          console.log(this.components);
+
+        }
+      }
     }
     // Animate if needed
     if (this.animate) {
