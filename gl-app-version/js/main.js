@@ -288,13 +288,13 @@ function createComponents(gl) {
 		center: [0., 0., 0.]
 	})
 
-	cube2.setDrawingMode("per-vertex-color");
+	cube2.setDrawingMode("per-vertex-color")
 
-	cube.translate(0, 0, -80);
-	cube2.translate(-10, 0, -100);
+	cube.translate(0, 0, -80)
+	cube2.translate(-10, 0, -100)
 
-	components.push(cube);
-	components.push(cube2);
+	components.push(cube)
+	components.push(cube2)
 
 	return components
 }
@@ -328,7 +328,6 @@ function mouseUpEventListener(event) {
 		e[0] - .25, e[1] + .25, e[2] - .25,
 		e[0] - .25, e[1] - .25, e[2] - .25
 	]
-	console.log("creating projectile with center at: ", center)
 	let projectile = new Projectile({
 		gl,
 		points,
@@ -362,10 +361,10 @@ function initEventHandlers() {
 var canvas
 
 function main() {
-	canvas = document.getElementById("canvas");
-	canvas.style.cursor = 'none';
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
+	canvas = document.getElementById("canvas")
+	canvas.style.cursor = 'none'
+	canvas.width = window.innerWidth
+	canvas.height = window.innerHeight
 
 	mainApp = new GlApp({ canvas: "canvas", clearColor: [0., 0., 0., 1.], animate: true })
 	if (!mainApp.gl) return
@@ -379,11 +378,11 @@ function main() {
 	// For multiple components
 	mainApp.addComponents(components)
 
-	let camera = new Camera();
+	let camera = new Camera()
 	camera.setPerspective()
 
-	mainApp.addCamera(camera);
+	mainApp.addCamera(camera)
 
 	mainApp.run()
-	initEventHandlers();
+	initEventHandlers()
 }

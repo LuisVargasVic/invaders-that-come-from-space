@@ -63,29 +63,25 @@ class GlApp {
     this.gl.clear(this.gl.COLOR_BUFFER_BIT)
     // Mapping from clip-space coords to the viewport in pixels
     this.gl.viewport(0, 0, this.canvas.width, this.canvas.height)
-    // Tell each component to render itthis
-    for (let component of this.components) {
-      component.update()
-      component.loadCameraData(this.camera)
-      component.render()
-    }
 
     for (let component of this.projectiles) {
       component.update()
       component.loadCameraData(this.camera)
       component.render()
-      let returnVal = component.checkCollision(this.components);
+      let returnVal = component.checkCollision(this.components)
       if (returnVal[0]) {
-        console.log(returnVal);
-        let enemyIndex = this.components.indexOf(returnVal[1]);
-        console.log("Enemy index: ", enemyIndex);
+        let enemyIndex = this.components.indexOf(returnVal[1])
         if (enemyIndex !== -1) {
-          console.log("Deleting enemy", enemyIndex)
-          this.components.splice(enemyIndex, 1);
-          console.log(this.components);
-
+          this.components.splice(enemyIndex, 1)
         }
       }
+    }
+
+    // Tell each component to render itthis
+    for (let component of this.components) {
+      component.update()
+      component.loadCameraData(this.camera)
+      component.render()
     }
     // Animate if needed
     if (this.animate) {
