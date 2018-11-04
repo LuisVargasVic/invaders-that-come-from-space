@@ -1,0 +1,28 @@
+{
+  "name": "invaders-that-come-from-space",
+  "version": "1.0.0",
+  "description": "API for invaders that come from space",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fornesarturo/invaders-that-come-from-space.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fornesarturo/invaders-that-come-from-space/issues"
+  },
+  "homepage": "https://github.com/fornesarturo/invaders-that-come-from-space#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "http": "0.0.0",
+    "mongoose": "^5.3.9",
+    "path": "^0.12.7"
+  }
+}
