@@ -58,7 +58,7 @@ class Enemy extends Cube {
 				avZ += this.points[i]
 			}
 		}
-		return [avX / length, avY / length, avZ / length]
+		return [avX / 8, avY / 8, avZ / 8]
 	}
 
 	getMin () {
@@ -106,7 +106,7 @@ class Enemy extends Cube {
 		let ty = this.center[1] - centroid[1]
 		let tz = this.center[2] - centroid[2]
 		let magnitude = Math.sqrt(Math.pow(tx, 2) + Math.pow(ty, 2) + Math.pow(tz, 2))
-		this.translate(tx / magnitude * 0.5, ty / magnitude * 0.5, tz / magnitude * 0.5)
+		this.translate(tx / magnitude * .8, ty / magnitude * .8, tz / magnitude * .8)
 	}
 }
 
@@ -140,7 +140,7 @@ class Projectile extends Cube {
 		let ty = center[1] - centroid[1]
 		let tz = center[2] - centroid[2]
 		let magnitude = Math.sqrt(Math.pow(tx, 2) + Math.pow(ty, 2) + Math.pow(tz, 2))
-		this.direction = [tx / magnitude * 0.5, ty / magnitude * 0.5, tz / magnitude * 0.5]
+		this.direction = [tx / magnitude * 0.8, ty / magnitude * 0.8, tz / magnitude * 0.8]
 		this.setUpdate(this.animate)
 	}
 
@@ -171,7 +171,7 @@ class Projectile extends Cube {
 				avZ += this.points[i]
 			}
 		}
-		return [avX / length, avY / length, avZ / length]
+		return [avX / 8, avY / 8, avZ / 8]
 	}
 
 	lookAtCenter(centroid) {
@@ -290,8 +290,22 @@ function createComponents(gl) {
 
 	cube2.setDrawingMode("per-vertex-color")
 
+	/*
+		Ranges for X, Y, Z
+		X => [-100, 120]
+		Y => [-80, 100]
+		Z => [-40, -100]		
+	*/
+
 	cube.translate(0, 0, -80)
 	cube2.translate(-10, 0, -100)
+	// cube.translate(-100, 0, -80)
+	// cube2.translate(120, 0, -100)
+	// cube.translate(120, -50, -80)
+	// cube2.translate(120, 100, -100)
+	// cube.translate(-100, -80, -80)
+	// cube2.translate(-100, 30, -100)
+
 
 	components.push(cube)
 	components.push(cube2)
@@ -348,7 +362,7 @@ function mouseUpEventListener(event) {
 		center
 	})
 
-	let timeout = 1 * 1000
+	let timeout = 1 * 2000
 	mainApp.addProjectile(projectile, timeout)
 }
 
