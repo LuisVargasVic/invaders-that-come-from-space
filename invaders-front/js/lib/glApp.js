@@ -5,6 +5,8 @@ class GlApp {
     this.animate = animate
     this.components = []
     this.projectiles = []
+    this.closeEnough = 1
+
     // Get a WebGL Context.
     this.canvas = document.getElementById(canvas)
     this.gl = this.canvas.getContext("webgl")
@@ -14,8 +16,6 @@ class GlApp {
     this.points = 0
     
     this.elem = document.getElementById(life)
-    let self = this
-    this.id = setInterval(function() { self.frame() }, 100)
     this.life = 100
     // Handle error by not performing any more tasks.
     if (!this.gl) return console.log("Error getting webgl")
@@ -67,18 +67,13 @@ class GlApp {
     this.components.splice(index, 1)
   }
 
-  frame () {
-    if (this.life <= 0) {
-      clearInterval(this.id)
-    } else {
-      this.life--
-      this.elem.style.width = this.life + '%'
-      console.log("life"+this.life)
-    }
+  lowLife () {
+    this.life = this.life - 20
+    this.elem.style.width = this.life + '%'
+    console.log(this.life)
   }
 
   run () {
-    this.frame()
     let self = this;
     this.gl.clear(this.gl.COLOR_BUFFER_BIT)
     // Mapping from clip-space coords to the viewport in pixels
@@ -109,6 +104,15 @@ class GlApp {
       component.update()
       component.loadCameraData(this.camera)
       component.render()
+      // 
+      let distance = component.checkClose()
+      if (distance <= this.closeEnough) {
+        this.lowLife()
+        let enemyIndex = this.components.indexOf(component)
+        if (enemyIndex !== -1) {
+          this.components.splice(enemyIndex, 1)
+        }
+      }
     }
     // Animate if needed
     if (this.animate) {
