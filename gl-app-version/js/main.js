@@ -290,8 +290,22 @@ function createComponents(gl) {
 
 	cube2.setDrawingMode("per-vertex-color")
 
+	/*
+		Ranges for X, Y, Z
+		X => [-100, 120]
+		Y => [-80, 100]
+		Z => [-40, -100]		
+	*/
+
 	cube.translate(0, 0, -80)
 	cube2.translate(-10, 0, -100)
+	// cube.translate(-100, 0, -80)
+	// cube2.translate(120, 0, -100)
+	// cube.translate(120, -50, -80)
+	// cube2.translate(120, 100, -100)
+	// cube.translate(-100, -80, -80)
+	// cube2.translate(-100, 30, -100)
+
 
 	components.push(cube)
 	components.push(cube2)
