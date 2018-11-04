@@ -108,6 +108,16 @@ class Enemy extends Cube {
 		let magnitude = Math.sqrt(Math.pow(tx, 2) + Math.pow(ty, 2) + Math.pow(tz, 2))
 		this.translate(tx / magnitude * 0.5, ty / magnitude * 0.5, tz / magnitude * 0.5)
 	}
+
+	checkClose () {
+		let centroid = this.getCentroid()
+		// this.lookAtCenter(centroid)
+		let tx = this.center[0] - centroid[0]
+		let ty = this.center[1] - centroid[1]
+		let tz = this.center[2] - centroid[2]
+		let magnitude = Math.sqrt(Math.pow(tx, 2) + Math.pow(ty, 2) + Math.pow(tz, 2))
+		return magnitude
+	}
 }
 
 class Projectile extends Cube {
