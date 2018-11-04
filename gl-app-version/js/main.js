@@ -106,7 +106,7 @@ class Enemy extends Cube {
 		let ty = this.center[1] - centroid[1]
 		let tz = this.center[2] - centroid[2]
 		let magnitude = Math.sqrt(Math.pow(tx, 2) + Math.pow(ty, 2) + Math.pow(tz, 2))
-		this.translate(tx / magnitude * .8, ty / magnitude * .8, tz / magnitude * .8)
+		this.translate(tx / magnitude * .5, ty / magnitude * .5, tz / magnitude * .5)
 	}
 }
 
@@ -294,7 +294,7 @@ function createComponents(gl) {
 		Ranges for X, Y, Z
 		X => [-100, 120]
 		Y => [-80, 100]
-		Z => [-40, -100]		
+		Z => [-40, -100] 		
 	*/
 
 	cube.translate(0, 0, -80)

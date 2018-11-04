@@ -59,6 +59,11 @@ class GlApp {
   }
 
   run () {
+    console.log("Components Length: ", this.components.length)
+    if(this.components.length < 10)
+    {
+      this.addEnemy()
+    }
     let self = this;
     this.gl.clear(this.gl.COLOR_BUFFER_BIT)
     // Mapping from clip-space coords to the viewport in pixels
@@ -88,4 +93,86 @@ class GlApp {
       requestAnimationFrame(function () { self.run() })
     }
   }
+
+  addEnemy()
+  {
+    let randX = Math.floor((Math.random() * 100) + 1);
+    randX *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
+
+    let randY = Math.floor((Math.random() * 80) + 1);
+    randY *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
+
+    let randZ = Math.floor((Math.random() * 50) + 100);
+    randZ *= -1;
+
+    let enemy = new Enemy({
+      gl: gl,
+      points: [
+        1, 1, 1,
+        -1, 1, 1,
+        -1, -1, 1,
+        1, -1, 1,
+        1, -1, -1,
+        1, 1, -1,
+        -1, 1, -1,
+        -1, -1, -1
+      ],
+      indices: [
+        0, 1, 2,
+        0, 2, 3,
+        4, 7, 5,
+        7, 6, 5,
+        7, 2, 1,
+        7, 1, 6,
+        6, 0, 5,
+        6, 1, 0,
+        5, 0, 4,
+        0, 3, 4,
+        3, 2, 7,
+        4, 3, 7
+      ],
+      center: [0., 0., 0.]
+    });
+    enemy.setDrawingMode("per-vertex-color");
+    enemy.translate(randX, randY, randZ);
+
+    this.components.push(enemy);
+  }
+}
+
+function mouseUpEventListener(event) {
+	let e = mainApp.camera.eye
+	let center = mainApp.camera.center
+	let points = [
+		e[0] + .25, e[1] + .25, e[2] + .25,
+		e[0] - .25, e[1] + .25, e[2] + .25,
+		e[0] - .25, e[1] - .25, e[2] + .25,
+		e[0] + .25, e[1] - .25, e[2] + .25,
+		e[0] + .25, e[1] - .25, e[2] - .25,
+		e[0] + .25, e[1] + .25, e[2] - .25,
+		e[0] - .25, e[1] + .25, e[2] - .25,
+		e[0] - .25, e[1] - .25, e[2] - .25
+	]
+	let projectile = new Projectile({
+		gl,
+		points,
+		indices: [
+			0, 1, 2,
+			0, 2, 3,
+			4, 7, 5,
+			7, 6, 5,
+			7, 2, 1,
+			7, 1, 6,
+			6, 0, 5,
+			6, 1, 0,
+			5, 0, 4,
+			0, 3, 4,
+			3, 2, 7,
+			4, 3, 7
+		],
+		center
+	})
+
+	let timeout = 1 * 2000
+	mainApp.addProjectile(projectile, timeout)
 }
