@@ -1,16 +1,22 @@
 class GlApp {
 
-  constructor ({ canvas, canvasText, clearColor, animate, data }) {
+  constructor ({ canvas, canvasText, life, clearColor, animate, data }) {
     this.data = Object.assign({}, data)
     this.animate = animate
     this.components = []
     this.projectiles = []
     // Get a WebGL Context.
     this.canvas = document.getElementById(canvas)
+    this.gl = this.canvas.getContext("webgl")
+
 	  this.canvasText = document.getElementById(canvasText)
     this.ctx = this.canvasText.getContext('2d')
     this.points = 0
-    this.gl = this.canvas.getContext("webgl")
+    
+    this.elem = document.getElementById(life)
+    let self = this
+    this.id = setInterval(function() { self.frame() }, 100)
+    this.life = 100
     // Handle error by not performing any more tasks.
     if (!this.gl) return console.log("Error getting webgl")
     // Set the clear color
@@ -61,7 +67,18 @@ class GlApp {
     this.components.splice(index, 1)
   }
 
+  frame () {
+    if (this.life <= 0) {
+      clearInterval(this.id)
+    } else {
+      this.life--
+      this.elem.style.width = this.life + '%'
+      console.log("life"+this.life)
+    }
+  }
+
   run () {
+    this.frame()
     let self = this;
     this.gl.clear(this.gl.COLOR_BUFFER_BIT)
     // Mapping from clip-space coords to the viewport in pixels
@@ -70,7 +87,7 @@ class GlApp {
     this.ctx.font = "italic bold 20pt Tahoma"
     //syntax : .fillText("text", x, y)
     
-    this.ctx.fillText("Points: ",30,80)
+    this.ctx.fillText("Points: "+this.points,30,80)
     for (let component of this.projectiles) {
       component.update()
       component.loadCameraData(this.camera)
