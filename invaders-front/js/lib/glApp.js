@@ -89,11 +89,11 @@ class GlApp {
     //syntax : .fillText("text", x, y)
     
     this.ctx.fillText("Points: "+this.points,30,80)
-    for (let component of this.projectiles) {
-      component.update()
-      component.loadCameraData(this.camera)
-      component.render()
-      let returnVal = component.checkCollision(this.components)
+    for (let projectile of this.projectiles) {
+      projectile.update()
+      projectile.loadCameraData(this.camera)
+      projectile.render()
+      let returnVal = projectile.checkCollision(this.components)
       if (returnVal[0]) {
         this.points++
         this.ctx.clearRect(0, 0, this.canvasText.width, this.canvasText.height);
@@ -101,6 +101,10 @@ class GlApp {
         let enemyIndex = this.components.indexOf(returnVal[1])
         if (enemyIndex !== -1) {
           this.components.splice(enemyIndex, 1)
+          let projectileIndex = this.projectiles.indexOf(projectile)
+          if (projectileIndex !== -1) {
+            this.projectiles.splice(projectileIndex, 1)
+          }
         }
         this.sendScore()
       }
