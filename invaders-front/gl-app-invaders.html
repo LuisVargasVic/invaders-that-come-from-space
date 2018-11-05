@@ -130,20 +130,21 @@
 	</head>
 
 	<body onload="main();">
-		<div id="game_over" style="display:none">
-			<p style="color:white; font-size: 60px; position:absolute; left:480px; top:140px;">ENTER NAME</p>
-			<input type="text" maxlength="5" style="position:absolute;	left:450px;	top:275px;	width:450px; height:100px;	background-color: darkred; font-size: 120px; color:white; text-align: center">
-			<button style="background-color:gray; position: absolute; left:575px; top: 400px; font-size:50px; color: white">SUBMIT</button>
+		<div id="gameover" class="hidden">
+			<p style="color:white; font-size: 70px; position:absolute; left:475px; top:60px;">GAME OVER</p>
+			<p style="color:white; font-size: 50px; position:absolute; left:510px; top:150px;">ENTER NAME</p>
+			<input id="user-input" type="text" maxlength="5" style="position:absolute;	left:450px;	top:275px;	width:450px; height:100px;	background-color: darkred; font-size: 120px; color:white; text-align: center">
+			<button id="submit-button" style="background-color:gray; position: absolute; left:575px; top: 400px; font-size:50px; color: white">SUBMIT</button>
 		</div>		
 		<canvas id="canvas"></canvas>
 		<canvas id="text"></canvas>
 		<div id="myProgress">
 			<div id="life"></div>
 		</div>
-		<div id="game_over" style="display:none">
-			<p style="color:white; font-size: 60px; position:absolute; left:480px; top:140px;">GAME OVER</p>
+		<!-- <div id="game_over" style="display:none">
+			
 			<button style="background-color:gray; position: absolute; left:480px; top: 300px; font-size:50px; color: white">SUBMIT SCORE</button>
-		</div>		
+		</div>		 -->
 	</body>
 
 </html>

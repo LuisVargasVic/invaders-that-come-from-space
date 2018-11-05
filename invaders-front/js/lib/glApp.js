@@ -1,6 +1,6 @@
 class GlApp {
 
-  constructor ({ canvas, canvasText, life, clearColor, animate, data }) {
+  constructor ({ canvas, canvasText, life, gameOver, userInput, submitButton, clearColor, animate, data }) {
     this.data = Object.assign({}, data)
     this.animate = animate
     this.components = []
@@ -19,6 +19,22 @@ class GlApp {
     
     this.elem = document.getElementById(life)
     this.life = 100
+
+    this.gameOverDiv = document.getElementById(gameOver)
+    this.userInput = document.getElementById(userInput)
+    this.submitButton = document.getElementById(submitButton)
+
+    let self = this
+    this.submitButton.addEventListener('click', function () { 
+      let returnVal = self.sendScore(self.userInput.value)
+      if (returnVal) {
+        let name = "hidden";
+        let arr = self.submitButton.className.split(" ");
+        if (arr.indexOf(name) == -1) {
+          self.submitButton.className += " " + name;
+        }
+      }
+    })
 
     // Handle error by not performing any more tasks.
     if (!this.gl) return console.log("Error getting webgl")
@@ -51,6 +67,7 @@ class GlApp {
   }
 
   addProjectile (component, timeout) {
+    if (this.gameOver) return
     let self = this
     this.projectiles.push(component)
     setTimeout(function () {
@@ -71,26 +88,26 @@ class GlApp {
   }
 
   lowLife () {
+    if (this.gameOver) return
     this.life = this.life - 20
     this.elem.style.width = this.life + '%'
+    if (this.life == 0) {
+      this.gameOver = true
+      this.gameOverDiv.className = this.gameOverDiv.className.replace(/\bhidden\b/g, "");
+    }
     console.log("Life: ", this.life)
   }
 
   run () {
-    console.log("Components Length: ", this.components.length)
-    if(this.components.length < 10)
-    {
-      this.addEnemy()
-    }
-    let self = this;
+    if (this.components.length < 10) this.addEnemy()
+    let self = this
     this.gl.clear(this.gl.COLOR_BUFFER_BIT)
     // Mapping from clip-space coords to the viewport in pixels
     this.gl.viewport(0, 0, this.canvas.width, this.canvas.height)
-    this.ctx.fillStyle= "red"
+    this.ctx.fillStyle = "red"
     this.ctx.font = "italic bold 20pt Tahoma"
-    //syntax : .fillText("text", x, y)
     
-    this.ctx.fillText("Points: "+this.points,30,80)
+    this.ctx.fillText("Points: " + this.points, 30, 80)
     for (let projectile of this.projectiles) {
       projectile.update()
       projectile.loadCameraData(this.camera)
@@ -99,7 +116,7 @@ class GlApp {
       if (returnVal[0]) {
         this.points++
         this.ctx.clearRect(0, 0, this.canvasText.width, this.canvasText.height);
-        this.ctx.fillText("Points: "+this.points,30,80)
+        this.ctx.fillText("Points: " + this.points, 30, 80)
         let enemyIndex = this.components.indexOf(returnVal[1])
         if (enemyIndex !== -1) {
           this.components.splice(enemyIndex, 1)
@@ -108,7 +125,6 @@ class GlApp {
             this.projectiles.splice(projectileIndex, 1)
           }
         }
-        this.sendScore()
       }
     }
 
@@ -117,7 +133,6 @@ class GlApp {
       component.update()
       component.loadCameraData(this.camera)
       component.render()
-      // 
       let distance = component.checkClose()
       if (distance <= this.closeEnough) {
         this.lowLife()
@@ -126,10 +141,6 @@ class GlApp {
           this.components.splice(enemyIndex, 1)
         }
       }
-    }
-
-    if (this.life == 0){
-      this.gameOver = true
     }
 
     // Animate if needed
@@ -183,9 +194,10 @@ class GlApp {
     this.components.push(enemy);
   }
 
-  sendScore () {
+  sendScore (username) {
+    if (!username || username.length < 5) return false
     var data = {
-      userId: this.username,
+      userId: username,
       score: this.points
     }
     var options = {
@@ -201,7 +213,9 @@ class GlApp {
     fetch("api/score", options)
       .then(res => {
         console.log(res);
+        location.reload(true)
       });
+    return true
   }
 }
 

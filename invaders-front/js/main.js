@@ -390,7 +390,7 @@ function main() {
 	canvas.width = window.innerWidth
 	canvas.height = window.innerHeight
 
-	mainApp = new GlApp({ canvas: "canvas", canvasText: "text", life: "life", clearColor: [0., 0., 0., 1.], animate: true })
+	mainApp = new GlApp({ canvas: "canvas", canvasText: "text", life: "life", gameOver: 'gameover', userInput: 'user-input', submitButton: 'submit-button', clearColor: [0., 0., 0., 1.], animate: true })
 	if (!mainApp.gl) return
 	gl = mainApp.gl
 	var components = createComponents(mainApp.gl)
