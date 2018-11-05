@@ -6,6 +6,7 @@ class GlApp {
     this.components = []
     this.projectiles = []
     this.closeEnough = 1
+    this.username = "GNRC"
 
     // Get a WebGL Context.
     this.canvas = document.getElementById(canvas)
@@ -70,7 +71,7 @@ class GlApp {
   lowLife () {
     this.life = this.life - 20
     this.elem.style.width = this.life + '%'
-    console.log(this.life)
+    console.log("Life: ", this.life)
   }
 
   run () {
@@ -88,23 +89,28 @@ class GlApp {
     //syntax : .fillText("text", x, y)
     
     this.ctx.fillText("Points: "+this.points,30,80)
-    for (let component of this.projectiles) {
-      component.update()
-      component.loadCameraData(this.camera)
-      component.render()
-      let returnVal = component.checkCollision(this.components)
+    for (let projectile of this.projectiles) {
+      projectile.update()
+      projectile.loadCameraData(this.camera)
+      projectile.render()
+      let returnVal = projectile.checkCollision(this.components)
       if (returnVal[0]) {
-      this.points++
-      this.ctx.clearRect(0, 0, this.canvasText.width, this.canvasText.height);
-      this.ctx.fillText("Points: "+this.points,30,80)
+        this.points++
+        this.ctx.clearRect(0, 0, this.canvasText.width, this.canvasText.height);
+        this.ctx.fillText("Points: "+this.points,30,80)
         let enemyIndex = this.components.indexOf(returnVal[1])
         if (enemyIndex !== -1) {
           this.components.splice(enemyIndex, 1)
+          let projectileIndex = this.projectiles.indexOf(projectile)
+          if (projectileIndex !== -1) {
+            this.projectiles.splice(projectileIndex, 1)
+          }
         }
+        this.sendScore()
       }
     }
 
-    // Tell each component to render itthis
+    // Tell each component to render itself
     for (let component of this.components) {
       component.update()
       component.loadCameraData(this.camera)
@@ -168,6 +174,27 @@ class GlApp {
     enemy.translate(randX, randY, randZ);
 
     this.components.push(enemy);
+  }
+
+  sendScore () {
+    var data = {
+      userId: this.username,
+      score: this.points
+    }
+    var options = {
+      hostname: 'localhost',
+      port: 8080,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(data)
+    };
+    fetch("api/score", options)
+      .then(res => {
+        console.log(res);
+      });
   }
 }
 
