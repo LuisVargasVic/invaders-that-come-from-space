@@ -7,6 +7,7 @@ class GlApp {
     this.projectiles = []
     this.closeEnough = 1
     this.username = "GNRC"
+    this.gameOver = false
 
     // Get a WebGL Context.
     this.canvas = document.getElementById(canvas)
@@ -18,6 +19,7 @@ class GlApp {
     
     this.elem = document.getElementById(life)
     this.life = 100
+
     // Handle error by not performing any more tasks.
     if (!this.gl) return console.log("Error getting webgl")
     // Set the clear color
@@ -125,6 +127,11 @@ class GlApp {
         }
       }
     }
+
+    if (this.life == 0){
+      this.gameOver = true
+    }
+
     // Animate if needed
     if (this.animate) {
       requestAnimationFrame(function () { self.run() })
