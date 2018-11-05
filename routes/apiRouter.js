@@ -9,7 +9,7 @@ apiRouter.route('/score')
             .then(
                 (val) => {
                     res.status(200)
-                    res.send(val)
+                    res.json(val)
                 }
             ).catch(
                 (err) => {
