@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const favicon = require('serve-favicon')
 const http = require('http')
 const path = require('path')
 const cors = require('cors')
@@ -31,6 +32,7 @@ const PORT = process.env.PORT || 8080
 process.env.BASE_PORT = PORT
 
 var app = express()
+app.use(favicon('favicon.ico'));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
