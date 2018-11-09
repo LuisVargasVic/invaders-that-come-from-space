@@ -27,7 +27,7 @@ db.on('error', (err) => {
     console.error.bind(console, 'MongoDB connection error:')
 })
 
-const PORT = 8080
+const PORT = process.env.PORT || 8080
 process.env.BASE_PORT = PORT
 
 var app = express()
