@@ -105,7 +105,8 @@ class GlApp {
   }
 
   run () {
-    if (this.components.length < 10) this.addEnemy()
+    // console.log("Score: " + this.points)
+    if (this.components.length < this.points) this.addEnemy()
     let self = this
     this.gl.clear(this.gl.COLOR_BUFFER_BIT)
     // Mapping from clip-space coords to the viewport in pixels
