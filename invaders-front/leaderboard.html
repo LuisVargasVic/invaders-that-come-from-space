@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Leaderboard</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+
+        .title {
+            color: red;
+            font-size: 50px;
+            text-align: center;
+        }
+
+        .list {
+            font-size: 45px;
+            padding-left: 45%;
+        }
+    </style>
+    <script>
+        function main() {
+
+            document.getElementById("submitbutton").addEventListener('click', function () {
+                location.assign("/")
+            })
+
+            var options = {
+                hostname: 'localhost',
+                port: 8080,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'GET'
+            }
+            // GET the score JSON and store it in a scene variable
+            fetch("/api/score", options)
+                .then(res => res.json())
+                .then(resJSON => {
+                    let leaderboardLength
+                    if (resJSON.length >= 10)
+                        leaderboardLength = 10
+                    else
+                        leaderboardLength = resJSON.length
+                    for (let i = 0; i < leaderboardLength; i++) {
+                        let text = resJSON[i].userId + "\t" + resJSON[i].score.toString()
+                        addListItem(text)
+                    }
+                });
+        }
+
+        function addListItem(text) {
+                var ol = document.getElementById("list");
+                var li = document.createElement("li");
+                li.appendChild(document.createTextNode(text));
+                ol.appendChild(li);
+        }
+    </script>
+</head>
+<body onload="main();">
+    <div class="title">Leaderboard</div>
+    <ol id="list" type="1" class="list"></ol>
+    <div style="padding-left: 45%;">
+        <button id="submitbutton" style="background-color:gray; font-size:50px; color: white;">PLAY</button>
+    </div>
+</body>
+</html>

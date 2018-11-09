@@ -390,6 +390,17 @@ function main() {
 	canvas.width = window.innerWidth
 	canvas.height = window.innerHeight
 
+	document.getElementById('hint').width = window.innerWidth;
+
+	window.addEventListener('keypress', function (e) {
+		var code = (e.keyCode ? e.keyCode : e.which);
+		var L_KEYCODE = 76;
+		var l_KEYCODE = 108;
+		if (code == L_KEYCODE || code == l_KEYCODE) {
+			location.assign('/leaderboard')
+		}
+	});
+
 	mainApp = new GlApp({ canvas: "canvas", canvasText: "text", life: "life", gameOver: 'gameover', userInput: 'user-input', submitButton: 'submit-button', clearColor: [0., 0., 0., 1.], animate: true })
 	if (!mainApp.gl) return
 	gl = mainApp.gl

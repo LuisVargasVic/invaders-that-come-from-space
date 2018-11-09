@@ -5,7 +5,7 @@ var apiRouter = Router()
 
 apiRouter.route('/score')
     .get((req, res, next) => {
-        Score.find({})
+        Score.find({}).sort({ score: -1 })
             .then(
                 (val) => {
                     res.status(200)

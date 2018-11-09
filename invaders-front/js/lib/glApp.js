@@ -24,6 +24,12 @@ class GlApp {
     this.userInput = document.getElementById(userInput)
     this.submitButton = document.getElementById(submitButton)
 
+    this.hint = document.getElementById('hint').getContext('2d')
+    this.hint.fillStyle = "white"
+    this.hint.font = "italic bold 20pt Tahoma"
+
+    this.hint.fillText("Press 'L' to go to leaderboard", 1000, 80)
+
     let self = this
     this.submitButton.addEventListener('click', function () { 
       let returnVal = self.sendScore(self.userInput.value)
@@ -31,8 +37,9 @@ class GlApp {
         let name = "hidden";
         let arr = self.submitButton.className.split(" ");
         if (arr.indexOf(name) == -1) {
-          self.submitButton.className += " " + name;
+          self.submitButton.className += " " + name
         }
+        location.assign("/leaderboard")
       }
     })
 
@@ -95,7 +102,6 @@ class GlApp {
       this.gameOver = true
       this.gameOverDiv.className = this.gameOverDiv.className.replace(/\bhidden\b/g, "");
     }
-    console.log("Life: ", this.life)
   }
 
   run () {
@@ -212,8 +218,7 @@ class GlApp {
     };
     fetch("api/score", options)
       .then(res => {
-        console.log(res);
-        location.reload(true)
+        // location.reload(true)
       });
     return true
   }
