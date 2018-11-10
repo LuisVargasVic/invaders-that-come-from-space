@@ -142,6 +142,8 @@ class GlApp {
       component.render()
       let distance = component.checkClose()
       if (distance <= this.closeEnough) {
+        let audio = new Audio("sounds/Auu.m4a")
+        audio.play()
         this.lowLife()
         let enemyIndex = this.components.indexOf(component)
         if (enemyIndex !== -1) {

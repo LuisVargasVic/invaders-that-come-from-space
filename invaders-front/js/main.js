@@ -199,6 +199,9 @@ class Projectile extends Cube {
 				centroid[1] >= min[1] && centroid[1] <= max[1] &&
 				centroid[2] >= min[2] && centroid[2] <= max[2]) 
 			{
+				let audio = new Audio("sounds/Ouchi.m4a")
+				audio.currentTime=0.1
+				audio.play()
 				return [true, enemy]
 			}
 		}
