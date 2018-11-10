@@ -40,6 +40,7 @@ app.use(express.static(path.join(__dirname, 'invaders-front')))
 app.use(express.static(path.join(__dirname, 'invaders-front', 'css')))
 app.use(express.static(path.join(__dirname, 'invaders-front', 'js')))
 app.use(express.static(path.join(__dirname, 'invaders-front', 'js', 'lib')))
+app.use(express.static(path.join(__dirname, 'invaders-front', 'sounds')))
 
 if (process.env.IS_LOCALHOST) {
     app.use(cors({

@@ -340,8 +340,10 @@ function mouseMoveEventListener(event) {
 }
 
 
-
 function mouseUpEventListener(event) {
+	var audio = new Audio('sounds/Pew.m4a');
+	audio.currentTime=0.50
+	audio.play()
 	let e = mainApp.camera.eye
 	let center = mainApp.camera.center
 	let points = [
