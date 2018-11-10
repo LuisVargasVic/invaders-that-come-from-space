@@ -106,7 +106,7 @@ class Enemy extends Cube {
 		let ty = this.center[1] - centroid[1]
 		let tz = this.center[2] - centroid[2]
 		let magnitude = Math.sqrt(Math.pow(tx, 2) + Math.pow(ty, 2) + Math.pow(tz, 2))
-		this.translate(tx / magnitude * .5, ty / magnitude * .5, tz / magnitude * .5)
+		this.translate(tx / magnitude * .2, ty / magnitude * .2, tz / magnitude * .2)
 	}
 
 	checkClose () {
@@ -120,7 +120,7 @@ class Enemy extends Cube {
 	}
 }
 
-class Projectile extends Cube {
+class Projectile extends Cube {	
 	constructor({ gl, points, indices, center }) {
 		super({
 			gl,
@@ -150,8 +150,8 @@ class Projectile extends Cube {
 		let ty = center[1] - centroid[1]
 		let tz = center[2] - centroid[2]
 		let magnitude = Math.sqrt(Math.pow(tx, 2) + Math.pow(ty, 2) + Math.pow(tz, 2))
-		this.direction = [tx / magnitude * 0.8, ty / magnitude * 0.8, tz / magnitude * 0.8]
-		this.setUpdate(this.animate)
+		this.direction = [tx / magnitude * 0.5, ty / magnitude * 0.5, tz / magnitude * 0.5]
+		this.setUpdate(this.animate)		
 	}
 
 	translate(tx, ty, tz) {
@@ -238,67 +238,67 @@ function createComponents(gl) {
 
 	var components = []
 
-	let cube = new Enemy({
-		gl: gl,
-		points: [
-			1, 1, 1,
-			-1, 1, 1,
-			-1, -1, 1,
-			1, -1, 1,
-			1, -1, -1,
-			1, 1, -1,
-			-1, 1, -1,
-			-1, -1, -1
-		],
-		indices: [
-			0, 1, 2,
-			0, 2, 3,
-			4, 7, 5,
-			7, 6, 5,
-			7, 2, 1,
-			7, 1, 6,
-			6, 0, 5,
-			6, 1, 0,
-			5, 0, 4,
-			0, 3, 4,
-			3, 2, 7,
-			4, 3, 7
-		],
-		center: [0., 0., 0.]
-	});
+	// let cube = new Enemy({
+	// 	gl: gl,
+	// 	points: [
+	// 		1, 1, 1,
+	// 		-1, 1, 1,
+	// 		-1, -1, 1,
+	// 		1, -1, 1,
+	// 		1, -1, -1,
+	// 		1, 1, -1,
+	// 		-1, 1, -1,
+	// 		-1, -1, -1
+	// 	],
+	// 	indices: [
+	// 		0, 1, 2,
+	// 		0, 2, 3,
+	// 		4, 7, 5,
+	// 		7, 6, 5,
+	// 		7, 2, 1,
+	// 		7, 1, 6,
+	// 		6, 0, 5,
+	// 		6, 1, 0,
+	// 		5, 0, 4,
+	// 		0, 3, 4,
+	// 		3, 2, 7,
+	// 		4, 3, 7
+	// 	],
+	// 	center: [0., 0., 0.]
+	// });
 
-	cube.setDrawingMode('per-vertex-color');
+	// cube.setDrawingMode('per-vertex-color');
 
-	let cube2 = new Enemy({
-		gl: gl,
-		points: [
-			1, 1, 1,
-			-1, 1, 1,
-			-1, -1, 1,
-			1, -1, 1,
-			1, -1, -1,
-			1, 1, -1,
-			-1, 1, -1,
-			-1, -1, -1
-		],
-		indices: [
-			0, 1, 2,
-			0, 2, 3,
-			4, 7, 5,
-			7, 6, 5,
-			7, 2, 1,
-			7, 1, 6,
-			6, 0, 5,
-			6, 1, 0,
-			5, 0, 4,
-			0, 3, 4,
-			3, 2, 7,
-			4, 3, 7
-		],
-		center: [0., 0., 0.]
-	})
+	// let cube2 = new Enemy({
+	// 	gl: gl,
+	// 	points: [
+	// 		1, 1, 1,
+	// 		-1, 1, 1,
+	// 		-1, -1, 1,
+	// 		1, -1, 1,
+	// 		1, -1, -1,
+	// 		1, 1, -1,
+	// 		-1, 1, -1,
+	// 		-1, -1, -1
+	// 	],
+	// 	indices: [
+	// 		0, 1, 2,
+	// 		0, 2, 3,
+	// 		4, 7, 5,
+	// 		7, 6, 5,
+	// 		7, 2, 1,
+	// 		7, 1, 6,
+	// 		6, 0, 5,
+	// 		6, 1, 0,
+	// 		5, 0, 4,
+	// 		0, 3, 4,
+	// 		3, 2, 7,
+	// 		4, 3, 7
+	// 	],
+	// 	center: [0., 0., 0.]
+	// })
 
-	cube2.setDrawingMode("per-vertex-color")
+	// cube2.setDrawingMode("per-vertex-color")
 
 	/*
 		Ranges for X, Y, Z
@@ -307,8 +307,8 @@ function createComponents(gl) {
 		Z => [-40, -100] 		
 	*/
 
-	cube.translate(0, 0, -80)
-	cube2.translate(-10, 0, -100)
+	// cube.translate(0, 0, -80)
+	// cube2.translate(-10, 0, -100)
 	// cube.translate(-100, 0, -80)
 	// cube2.translate(120, 0, -100)
 	// cube.translate(120, -50, -80)
@@ -317,8 +317,8 @@ function createComponents(gl) {
 	// cube2.translate(-100, 30, -100)
 
 
-	components.push(cube)
-	components.push(cube2)
+	// components.push(cube)
+	// components.push(cube2)
 
 	return components
 }
@@ -338,6 +338,8 @@ function mouseMoveEventListener(event) {
 	mainApp.camera.center = [-(maxX / 2 - x) * factor, (maxY / 2 - y) * factor, -5.]
 	mainApp.updateCamera()
 }
+
+
 
 function mouseUpEventListener(event) {
 	let e = mainApp.camera.eye

@@ -1,4 +1,4 @@
-class GlApp {
+class GlApp {  
 
   constructor ({ canvas, canvasText, life, gameOver, userInput, submitButton, clearColor, animate, data }) {
     this.data = Object.assign({}, data)
@@ -106,7 +106,7 @@ class GlApp {
 
   run () {
     // console.log("Score: " + this.points)
-    if (this.components.length < this.points) this.addEnemy()
+    if (this.components.length < this.points+1) this.addEnemy()
     let self = this
     this.gl.clear(this.gl.COLOR_BUFFER_BIT)
     // Mapping from clip-space coords to the viewport in pixels
@@ -226,6 +226,7 @@ class GlApp {
 }
 
 function mouseUpEventListener(event) {
+  // var audio = new Audio("./js/lib/Pew.m4a");
 	let e = mainApp.camera.eye
 	let center = mainApp.camera.center
 	let points = [
