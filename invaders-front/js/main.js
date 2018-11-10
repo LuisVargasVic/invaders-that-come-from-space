@@ -390,6 +390,7 @@ function initEventHandlers() {
 }
 
 var canvas
+var playing = true
 
 function main() {
 	canvas = document.getElementById("canvas")
@@ -403,7 +404,7 @@ function main() {
 		var code = (e.keyCode ? e.keyCode : e.which);
 		var L_KEYCODE = 76;
 		var l_KEYCODE = 108;
-		if (code == L_KEYCODE || code == l_KEYCODE) {
+		if (playing && (code == L_KEYCODE || code == l_KEYCODE)) {
 			location.assign('/leaderboard')
 		}
 	});

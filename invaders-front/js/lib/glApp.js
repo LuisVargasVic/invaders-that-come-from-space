@@ -99,6 +99,7 @@ class GlApp {
     this.life = this.life - 20
     this.elem.style.width = this.life + '%'
     if (this.life == 0) {
+      playing = false
       this.gameOver = true
       this.gameOverDiv.className = this.gameOverDiv.className.replace(/\bhidden\b/g, "");
     }
